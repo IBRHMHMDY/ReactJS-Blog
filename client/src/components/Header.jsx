@@ -2,15 +2,15 @@ import {Link, useLocation} from 'react-router-dom';
 import { Button, Navbar, TextInput } from 'flowbite-react';
 import { AiOutlineSearch } from "react-icons/ai";
 import {FaMoon} from 'react-icons/fa6';
+import Logo from './Logo';
 
 export default function Header() {
     const path = useLocation().pathname;
   return (
     <Navbar className='border-b-2'>
-        <Link to="/" className='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'>
-            <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 mr-1 rounded-lg text-white'>SelfStudy</span>
-            BLOG
-        </Link>
+        <Logo Url='/' StyleLink='self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white'
+        StyleSpan='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 mr-1 rounded-lg text-white' />
+        
         <form>
         <TextInput 
                 type='text'

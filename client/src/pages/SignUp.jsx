@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import {Alert, Button, Label, Spinner, TextInput} from 'flowbite-react'
+import Logo from '../components/Logo';
 
 export default function SignUp() {
   
@@ -45,10 +46,8 @@ export default function SignUp() {
       <div className='flex flex-col md:flex-row max-w-3xl mx-auto md:items-center p-4 gap-5'>
         {/* Left */}
         <div className='flex flex-col p-3 mx-auto gap-4 flex-1'>
-          <div className='whitespace-nowrap text-4xl font-semibold dark:text-white'>
-              <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white'>SelfStudy</span>
-              BLOG
-          </div>
+          <Logo Url='/' StyleLink='whitespace-nowrap text-4xl font-semibold dark:text-white'
+                StyleSpan='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white'/>
           <p className='text-sm'>You can Signup by Username and Password Or by Google Account</p>
         </div>
         {/* Right */}
