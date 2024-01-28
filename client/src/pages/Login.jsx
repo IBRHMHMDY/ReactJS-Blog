@@ -4,6 +4,7 @@ import {Alert, Button, Label, Spinner, TextInput} from 'flowbite-react'
 import Logo from '../components/Logo';
 import {useDispatch, useSelector} from 'react-redux';
 import {signInStart, signInSuccess, SignInFailure} from '../redux/user/userSlice';
+import OAuthButton from '../components/OAuthButton/OAuthButton';
 
 export default function Login() {
   
@@ -20,7 +21,7 @@ export default function Login() {
   const handleSubmit = async(e)=>{
     e.preventDefault();
     if(!formData.email || !formData.password){
-      return dispatch(SignInFailure("Please fill out all fields."));
+      return dispatch(SignInFailure("Please fill all fields."));
     }
     try {
       dispatch(signInStart())
@@ -83,6 +84,7 @@ export default function Login() {
                 ) : 'Login'
               }
             </Button>
+            <OAuthButton />
           </form>
           <div className='flex gap-2 mt-5'>
             <span>Don't Have an Account? </span>
@@ -93,6 +95,7 @@ export default function Login() {
               <Alert className='mt-5 text-xl' color="failure">{errorMessage}</Alert>
             )
           }
+          
         </div>
       </div>
     </div>

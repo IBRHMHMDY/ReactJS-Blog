@@ -4,6 +4,7 @@ import {Alert, Button, Label, Spinner, TextInput} from 'flowbite-react'
 import Logo from '../components/Logo';
 import {useDispatch, useSelector} from 'react-redux';
 import {SignUpFailure, signUpStart, signUpSuccess} from '../redux/user/userSlice'
+import OAuthButton from '../components/OAuthButton/OAuthButton';
 
 export default function SignUp() {
   const {loading, error: errorMessage} = useSelector(state => state.user);
@@ -90,6 +91,7 @@ export default function SignUp() {
                 ) : 'SignUp'
               }
             </Button>
+            <OAuthButton />
           </form>
           <div className='flex gap-2 mt-5'>
             <span>Have an Account? </span>
