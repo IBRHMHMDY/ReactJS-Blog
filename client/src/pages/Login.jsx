@@ -20,9 +20,9 @@ export default function Login() {
 
   const handleSubmit = async(e)=>{
     e.preventDefault();
-    if(!formData.email || !formData.password){
-      return dispatch(SignInFailure("Please fill all fields."));
-    }
+    // if(!formData.email || !formData.password){
+    //   return dispatch(SignInFailure("Please fill all fields."));
+    // }
     try {
       dispatch(signInStart())
       const res = await fetch("/api/auth/login", {
