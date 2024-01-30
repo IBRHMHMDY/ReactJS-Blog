@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {app} from '../firebase.js'
 import {getDownloadURL, getStorage, ref, uploadBytesResumable} from 'firebase/storage'
-import { updateStart, updateSuccess,updateFailure, deleteStart, deleteFailure, deleteSuccess } from '../redux/user/userSlice.js';
+import { updateStart, updateSuccess,updateFailure, deleteStart, deleteFailure, deleteSuccess, signoutSuccess } from '../redux/user/userSlice.js';
 import { Alert, Button, Modal, TextInput } from 'flowbite-react';
 import {HiMail, HiUser, HiKey, HiOutlineExclamationCircle} from 'react-icons/hi'
 
@@ -123,6 +123,21 @@ export default function DashProfile() {
             dispatch(deleteFailure(error.message));
         }
     }
+    const handleSignout = async()=>{
+        try {
+            const res = await fetch(`/api/user/signout`, {
+                method: 'POST',
+            });
+            const data = await res.json();
+            if(!res.ok){
+                console.log(data.message);
+            }
+            dispatch(signoutSuccess(data))
+        } catch (error) {
+            console.log(error.message);
+        }
+
+    }
     return (
         <div className='max-w-lg mx-auto p-3 w-full'>
             <h1 className='my-7 text-center font-semibold text-3xl'>Profile</h1>
@@ -158,7 +173,7 @@ export default function DashProfile() {
             </form>
             <div className="flex justify-between mt-5 text-red-500 ">
                 <span onClick={()=>setShowModal(true)} className="cursor-pointer">Delete Account</span>
-                <span className="cursor-pointer">SignOut</span>
+                <span className="cursor-pointer" onClick={handleSignout}>SignOut</span>
             </div>
             {updateUserSuccess && (<Alert className='mt-5' color='success'>{updateUserSuccess}</Alert>)}
             {updateUserError && (<Alert className='mt-5' color='failure'>{updateUserError}</Alert>)}
