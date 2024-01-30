@@ -4,7 +4,7 @@ import {Alert, Button, Label, Spinner, TextInput} from 'flowbite-react'
 import Logo from '../components/Logo';
 import {useDispatch, useSelector} from 'react-redux';
 import {signInStart, signInSuccess, SignInFailure} from '../redux/user/userSlice';
-import OAuthButton from '../components/OAuthButton/OAuthButton';
+import OAuthButton from '../components/OAuthButton';
 
 export default function Login() {
   
