@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import {Alert, Button, Label, Spinner, TextInput} from 'flowbite-react'
 import Logo from '../components/Logo';
 import {useDispatch, useSelector} from 'react-redux';
-import {signInStart, signInSuccess, SignInFailure} from '../redux/user/userSlice';
+import {signInStart, signInSuccess, signInFailure} from '../redux/user/userSlice';
 import OAuthButton from '../components/OAuthButton';
 
 export default function Login() {
@@ -20,9 +20,9 @@ export default function Login() {
 
   const handleSubmit = async(e)=>{
     e.preventDefault();
-    // if(!formData.email || !formData.password){
-    //   return dispatch(SignInFailure("Please fill all fields."));
-    // }
+    if(!formData.email || !formData.password){
+      return dispatch(signInFailure("Please fill all fields."));
+    }
     try {
       dispatch(signInStart())
       const res = await fetch("/api/auth/login", {
@@ -32,7 +32,7 @@ export default function Login() {
       });
       const data = await res.json();
       if(data.success === false){
-        dispatch(SignInFailure(data.message));
+        dispatch(signInFailure(data.message));
       }
       
       if(res.ok){
@@ -40,7 +40,7 @@ export default function Login() {
         navigate('/')
       }
     } catch (error) {
-      dispatch(SignInFailure(error.message));
+      dispatch(signInFailure(error.message));
     }
   }
   return (
