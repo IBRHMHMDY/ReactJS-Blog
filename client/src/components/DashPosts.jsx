@@ -7,6 +7,8 @@ export default function DashPosts() {
 
   const {currentUser} = useSelector(state => state.user)
   const [userPosts, setUserPosts] = useState([]);
+  const [showMore,setShowMore] = useState(true)
+
   useEffect(()=>{
     const fetchPosts = async()=>{
       try {
@@ -14,6 +16,9 @@ export default function DashPosts() {
         const data = await res.json();
         if(res.ok){
           setUserPosts(data.posts);
+          if(data.posts.length < 9){
+            setShowMore(false)
+          }
         }else{
           setUserPosts(data.message);
         }
@@ -25,39 +30,57 @@ export default function DashPosts() {
       fetchPosts();
     }
   }, [currentUser._id])
+  
+  const handleShowMore = async()=>{
+    const startIndex = userPosts.length;
+    try {
+      const res = await fetch(`/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`);
+      const data = await res.json()
+      if(data.posts.length < 9){
+        setShowMore(false);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
   return (
-    <div className='table-auto overflow-x-scroll overflow-hidden md:mx-auto p-3
+    <div className='table-auto overflow-x-scroll overflow-hidden md:mx-auto p-5 w-full
       scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300
-       dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
+      dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
       {currentUser.isAdmin && userPosts.length > 0 ? (
         <>
-          <Table hoverable className='overflow-hidden' >
+          <Table hoverable >
             <TableHead>
               <TableHeadCell>Date updated</TableHeadCell>
               <TableHeadCell>Post Image</TableHeadCell>
               <TableHeadCell>Post Title</TableHeadCell>
               <TableHeadCell>Category</TableHeadCell>
-              <TableHeadCell>Actions</TableHeadCell>
+              <TableHeadCell>Edit</TableHeadCell>
+              <TableHeadCell>Delete</TableHeadCell>
             </TableHead>
             <TableBody className='divide-y'>
               {userPosts.map((post)=>(
-              <TableRow key={post.id} className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+              <TableRow key={post.title} className='bg-white dark:border-gray-700 dark:bg-gray-800'>
                 <TableCell>{new Date(post.updatedAt).toLocaleDateString()}</TableCell>
                 <TableCell>
                   <Link to={`/post/${post.slug}`}>
-                    <img src={post.image} alt="img post" className='w-16 h-16 rounded-full'/>
+                    <img src={post.image} alt="img post" className='w-14 h-14 rounded-sm border-1 border-gray-500 dark:border-none'/>
                   </Link>
                 </TableCell>
-                <TableCell>{post.title}</TableCell>
+                <TableCell className='font-semibold'>{post.title}</TableCell>
                 <TableCell>{post.category}</TableCell>
-                <TableCell className='flex gap-5 items-center justify-center'>
-                  <Link className='text-teal-500 hover:text-teal-900 dark:hover:text-teal-200' to={`/edit/${post._id}`}>Edit</Link>
-                  <Link className='text-red-500 hover:text-red-900 dark:hover:text-red-300' to={`/post/delete`}>Delete</Link>
+                <TableCell>
+                  <Link className='text-teal-500 hover:underline dark:text-teal-200' to={`/edit/${post._id}`}>Edit</Link>
+                </TableCell>
+                <TableCell>
+                  <Link className='text-red-500 hover:underline dark:text-red-700' to={`/post/delete`}>Delete</Link>
                 </TableCell>
               </TableRow>
               ))}
             </TableBody>
           </Table>
+          {showMore && (<button onClick={handleShowMore} className='w-full hover:text-teal-700 p-5 self-center'>ShowMore...</button>)}
         </>
       ):(
         <p>You have not a Post</p>
