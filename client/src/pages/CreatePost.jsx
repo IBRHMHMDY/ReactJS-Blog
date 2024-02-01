@@ -8,7 +8,6 @@ import 'react-circular-progressbar/dist/styles.css';
 import { app } from '../firebase';
 import { useNavigate } from 'react-router-dom';
 
-
 export default function CreatePost() {
   const [file, setFile] = useState(null);
   const [uploadError,setUploadError] = useState(null)
@@ -69,6 +68,7 @@ export default function CreatePost() {
       setPublishError(error.message)
     }
   }
+  
   return (
     <div className='max-w-3xl p-3 mx-auto min-h-screen'>
       <h1 className='text-center text-3xl my-7 font-semibold'>
