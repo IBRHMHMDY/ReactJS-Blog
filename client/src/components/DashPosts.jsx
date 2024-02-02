@@ -93,7 +93,9 @@ export default function DashPosts() {
                 <TableCell className='font-semibold'>{post.title}</TableCell>
                 <TableCell>{post.category}</TableCell>
                 <TableCell>
-                  <span className='font-medium text-teal- cursor-pointer hover:underline dark:text-teal-200'>Edit</span>
+                  <Link to={`/edit/${post._id}`} className='font-medium text-teal- cursor-pointer hover:underline dark:text-teal-200'>
+                    Edit
+                  </Link>
                 </TableCell>
                 <TableCell>
                   <span className='font-medium text-red-500 cursor-pointer hover:underline dark:text-red-700' 
