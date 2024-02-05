@@ -3,12 +3,15 @@ import { Link } from 'react-router-dom'
 import {Alert, Button, Textarea} from 'flowbite-react'
 import { useEffect, useState } from 'react'
 import Comment from './Comment'
+import { useNavigate } from 'react-router-dom'
 
 export default function CommentsPost({postId}) {
     const {currentUser} = useSelector(state => state.user)
     const [comment, setComment] = useState('')
     const [comments, setComments] = useState([])
     const [errorComment, setErrorComment] = useState(null)
+    const navigate  = useNavigate();
+
     useEffect(()=>{
         const getComments = async()=>{
             try {
@@ -22,7 +25,38 @@ export default function CommentsPost({postId}) {
             }
         }
         getComments()
-    }, [postId])
+    }, [postId]);
+
+    const handleLike = async(commentId)=>{
+        try {
+            if(!currentUser){
+                navigate('/login')
+                return;
+            }
+
+            const res = await fetch(`/api/comment/likeComment/${commentId}`, {
+                method: 'PUT',
+            });
+            if (res.ok) {
+                const data = await res.json();
+                if (data && data.likes) {
+                    setComments(comments.map((comment) =>
+                        comment._id === commentId ? {
+                            ...comment,
+                            likes: data?.likes,
+                            numberOfLikes: data.likes.length,
+                        } : comment
+                    ));
+                } else {
+                    console.error('Invalid response data');
+                }
+            }
+
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
     const handleSubmit = async(e)=>{
         e.preventDefault();
         if(comment.length > 200){
@@ -48,6 +82,7 @@ export default function CommentsPost({postId}) {
         }
         
     }
+
   return (
     <div className='max-w-2xl mx-auto w-full p-3'>
         {currentUser ? (
@@ -79,13 +114,15 @@ export default function CommentsPost({postId}) {
         ):(
             <>
                 <div className='flex items-center gap-2 text-sm my-5'>
-                    <p>Comments</p>
-                    <div className='border rounded-md px-3 py-1 text-center'>
+                    <div className='flex items-center gap-1 border rounded-md px-3 py-1 text-center'>
                         <p>{comments.length}</p>
+                        <p>Comments</p>
                     </div>
                 </div>
                 {comments.map(comment => (
-                    <Comment key={comment._id} comment={comment}/>
+                    <Comment key={comment?._id} 
+                            comment={comment} 
+                            onLike={handleLike}/>
                 ))}
             </>
         )}
