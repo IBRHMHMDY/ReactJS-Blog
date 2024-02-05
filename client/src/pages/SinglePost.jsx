@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import {Link, useParams} from 'react-router-dom';
 import {Button, Spinner} from 'flowbite-react'
 import CallToActions from '../components/CallToActions';
+import CommentsPost from '../components/CommentsPost';
 
 export default function SinglePost() {
   const {postSlug} = useParams();
@@ -55,6 +56,7 @@ export default function SinglePost() {
       <div className='max-w-4xl mx-auto w-full'>
         <CallToActions/>
       </div>
+      <CommentsPost postId={post?._id}/>
     </main>
   )
 }
