@@ -82,7 +82,7 @@ export default function DashUsers() {
               <TableHeadCell>Delete</TableHeadCell>
             </TableHead>
             <TableBody className='divide-y'>
-              {users.map((user)=>(
+              {users && users.map((user)=>(
               <TableRow key={user._id} className='bg-white dark:border-gray-700 dark:bg-gray-800'>
                 <TableCell>{new Date(user.createdAt).toLocaleDateString()}</TableCell>
                 <TableCell>
