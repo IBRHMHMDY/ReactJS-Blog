@@ -1,15 +1,18 @@
 import {useSelector} from 'react-redux'
 import { Link } from 'react-router-dom'
-import {Alert, Button, Textarea} from 'flowbite-react'
+import {Alert, Button, Modal, Textarea} from 'flowbite-react'
 import { useEffect, useState } from 'react'
 import Comment from './Comment'
 import { useNavigate } from 'react-router-dom'
+import { HiOutlineExclamationCircle } from 'react-icons/hi'
 
 export default function CommentsPost({postId}) {
     const {currentUser} = useSelector(state => state.user)
     const [comment, setComment] = useState('')
     const [comments, setComments] = useState([])
+    const [commentToDelete,setCommentToDelete] = useState(null)
     const [errorComment, setErrorComment] = useState(null)
+    const [showModal, setShowModal] = useState(false);
     const navigate  = useNavigate();
 
     useEffect(()=>{
@@ -51,7 +54,6 @@ export default function CommentsPost({postId}) {
                     console.error('Invalid response data');
                 }
             }
-
         } catch (error) {
             console.log(error.message);
         }
@@ -83,6 +85,29 @@ export default function CommentsPost({postId}) {
         
     }
 
+    const handleEditComment = async(comment, editedComment) => {
+        setComments(comments.map((c)=> c._id === comment._id ?
+        {...c, comment: editedComment} : c));
+    }
+    const handleRemoveComment = async(commentId)=>{
+        setShowModal(false)
+        try {
+            if(!currentUser){
+                navigate('/login')
+                return;
+            }
+            const res = await fetch(`/api/comment/delete/${commentId}`, {
+                method: 'DELETE',
+            });
+            if(res.ok){
+                const data = await res.json()
+                setComments(comments.filter((comment)=> comment._id !== commentId))
+                console.log(data);
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
   return (
     <div className='max-w-2xl mx-auto w-full p-3'>
         {currentUser ? (
@@ -122,10 +147,31 @@ export default function CommentsPost({postId}) {
                 {comments.map(comment => (
                     <Comment key={comment?._id} 
                             comment={comment} 
-                            onLike={handleLike}/>
+                            onLike={handleLike}
+                            onEdit={handleEditComment}
+                            onDelete={(commentId)=> {
+                                setShowModal(true)
+                                setCommentToDelete(commentId)
+                            }}/>
                 ))}
+                
             </>
         )}
+        <Modal show={showModal} onClose={()=>setShowModal(false)} size='md' popup>
+            <Modal.Header/>
+            <Modal.Body>
+                <div className="text-center">
+                    <HiOutlineExclamationCircle className='w-14 h-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto'/>
+                    <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">
+                        Are you sure, you want to delete this Comment?
+                    </h3>
+                    <div className="flex gap-6 justify-center">
+                        <Button color='failure' onClick={()=>handleRemoveComment(commentToDelete)}>Yes, I'm sure</Button>
+                        <Button color='gray' onClick={()=>setShowModal(false)}>No, Cancel</Button>
+                    </div>
+                </div>
+            </Modal.Body>
+        </Modal>
     </div>
   )
 }
