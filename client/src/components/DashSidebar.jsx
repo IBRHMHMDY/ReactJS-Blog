@@ -1,10 +1,10 @@
 import {Sidebar} from 'flowbite-react';
-import {HiArrowSmallRight, HiDocumentText, HiUser, HiUsers} from 'react-icons/hi2'
+import {HiArrowSmallRight, HiCursorArrowRipple, HiDocumentText, HiUser, HiUsers} from 'react-icons/hi2'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { signoutSuccess } from '../redux/user/userSlice';
 import { useState } from 'react';
-import { HiChat } from 'react-icons/hi';
+import { HiArrowsExpand, HiChat, HiOutlineChartSquareBar } from 'react-icons/hi';
 
 
 export default function DashSidebar() {
@@ -31,11 +31,13 @@ export default function DashSidebar() {
     <Sidebar className='w-full md:w-56'>
         <Sidebar.Items>
             <Sidebar.ItemGroup className='flex flex-col gap-1'>
-                <Link to={'/dashboard?tab=profile'}>
-                    <Sidebar.Item active={tab === 'profile'} as='div' icon={HiUser} label={currentUser.isAdmin? 'Admin' : 'User'} labelColor='dark'>
-                        Profile
-                    </Sidebar.Item>
-                </Link>
+                {currentUser.isAdmin && (
+                    <Link to={'/dashboard?tab=dash'}>
+                        <Sidebar.Item active={tab === 'dash' || !tab} icon={HiOutlineChartSquareBar} labelColor='dark'  as='div' >
+                            Dashboard
+                        </Sidebar.Item>
+                    </Link>
+                )}
                 {currentUser.isAdmin && (
                     <Link to={'/dashboard?tab=posts'}>
                         <Sidebar.Item active={tab === 'posts'} icon={HiDocumentText} labelColor='dark'  as='div' >
@@ -57,6 +59,11 @@ export default function DashSidebar() {
                         </Sidebar.Item>
                     </Link>
                 )}
+                <Link to={'/dashboard?tab=profile'}>
+                    <Sidebar.Item active={tab === 'profile'} as='div' icon={HiUser} label={currentUser.isAdmin? 'Admin' : 'User'} labelColor='dark'>
+                        Profile
+                    </Sidebar.Item>
+                </Link>
                 <Sidebar.Item icon={HiArrowSmallRight} className='cursor-pointer' onClick={handleSignout}>
                     Sign Out
                 </Sidebar.Item>
