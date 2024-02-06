@@ -12,6 +12,7 @@ export default function DashSidebar() {
     const dispatch = useDispatch();
     const {currentUser} = useSelector(state => state.user)
     const [tab, setTab] = useState('');
+    
     const handleSignout = async()=>{
         try {
             const res = await fetch(`/api/user/signout`, {
