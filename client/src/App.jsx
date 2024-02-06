@@ -8,13 +8,13 @@ import SignUp from './pages/Signup';
 import CreatePost from './pages/CreatePost';
 import EditPost from './pages/EditPost';
 import SinglePost from './pages/SinglePost';
+import Search from './pages/Search';
 
 import Header from './components/Header';
 import FooterCom from './components/Footer';
 import PrivateRoute from './components/PrivateRoute';
 import AdminPrivateRoute from './components/AdminPrivateRoute';
 import ScrollToTop from './components/ScrollToTop';
-import Search from './pages/Search';
 
 export default function App() {
   return (

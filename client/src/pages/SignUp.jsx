@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {signUpFailure, signUpStart, signUpSuccess} from '../redux/user/userSlice'
 import OAuthButton from '../components/OAuthButton';
 
-export default function SignUp() {
+export default function Signup() {
   const {loading, error: errorMessage} = useSelector(state => state.user);
   const [formData, setFormData] = useState({});
   const dispatch = useDispatch();
