@@ -8,9 +8,13 @@ import postRoutes from './routes/post.route.js'
 import commentRoutes from './routes/comment.route.js'
 
 import cookieParser from 'cookie-parser';
+
+import path from 'path'
+
 // Config Server
 const port = 3000
 dotenv.config()
+const __dirname = path.resolve();
 
 // Run Server
 const app = express();
@@ -23,12 +27,17 @@ app.listen(port, ()=>{
 mongoose.connect(process.env.MONGO_CONFIG).then(()=>{
     console.log("MONGODB is Connected");
 });
-// API Routes
-app.use('/api/auth', authRoutes)
-app.use('/api/user', userRoutes)
-app.use('/api/post', postRoutes)
-app.use('/api/comment', commentRoutes)
 
+// API Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/post', postRoutes);
+app.use('/api/comment', commentRoutes);
+
+app.use(express.static(path.join(__dirname, '/client/dist')));
+app.get('*', (req,res,next)=>{
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+})
 // Create Messages Errors
 app.use((err,req,res,next)=>{
     const statusCode = err.statusCode || 500;
