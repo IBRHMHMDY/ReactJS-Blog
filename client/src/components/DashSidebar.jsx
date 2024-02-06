@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { signoutSuccess } from '../redux/user/userSlice';
 import { useState } from 'react';
+import { HiChat } from 'react-icons/hi';
 
 
 export default function DashSidebar() {
@@ -39,6 +40,13 @@ export default function DashSidebar() {
                     <Link to={'/dashboard?tab=posts'}>
                         <Sidebar.Item active={tab === 'posts'} icon={HiDocumentText} labelColor='dark'  as='div' >
                             Posts
+                        </Sidebar.Item>
+                    </Link>
+                )}
+                {currentUser.isAdmin && (
+                    <Link to={'/dashboard?tab=comments'}>
+                        <Sidebar.Item active={tab === 'comments'} icon={HiChat} labelColor='dark'  as='div' >
+                            Comments
                         </Sidebar.Item>
                     </Link>
                 )}

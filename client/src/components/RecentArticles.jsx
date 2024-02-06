@@ -20,7 +20,7 @@ export default function RecentArticles() {
   return (
     <div className='flex flex-col justify-center items-center mb-5'>
         <h1 className='text-2xl mt-5'>Recent Articles</h1>
-        <div className='flex flex-wrap justify-center items-center gap-4'>
+        <div className='flex flex-wrap justify-center items-center gap-4 mt-5'>
             {
                 recentPosts &&
                     recentPosts.map((post)=>(
