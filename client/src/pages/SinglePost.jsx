@@ -3,6 +3,7 @@ import {Link, useParams} from 'react-router-dom';
 import {Button, Spinner} from 'flowbite-react'
 import CallToActions from '../components/CallToActions';
 import CommentsPost from '../components/CommentsPost';
+import RecentArticles from '../components/RecentArticles';
 
 export default function SinglePost() {
   const {postSlug} = useParams();
@@ -57,6 +58,7 @@ export default function SinglePost() {
         <CallToActions/>
       </div>
       <CommentsPost postId={post?._id}/>
+      <RecentArticles />
     </main>
   )
 }
