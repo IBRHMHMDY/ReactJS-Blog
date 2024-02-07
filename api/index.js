@@ -11,13 +11,17 @@ import cookieParser from 'cookie-parser';
 
 import path from 'path'
 
+const app = express();
 // Config Server
 const port = 3000
 dotenv.config()
 const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, '/client/dist')));
+app.get('*', (req,res,next)=>{
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+})
 
 // Run Server
-const app = express();
 app.use(express.json())
 app.use(cookieParser())
 app.listen(port, ()=>{
@@ -34,10 +38,6 @@ app.use('/api/user', userRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/comment', commentRoutes);
 
-app.use(express.static(path.join(__dirname, '/client/dist')));
-app.get('*', (req,res,next)=>{
-    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
-})
 // Create Messages Errors
 app.use((err,req,res,next)=>{
     const statusCode = err.statusCode || 500;
