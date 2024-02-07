@@ -4,7 +4,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Projects from './pages/Projects';
 import SignIn from './pages/Login';
-import SignUp from './pages/Signup';
+import Signup from './pages/Signup';
 import CreatePost from './pages/CreatePost';
 import EditPost from './pages/EditPost';
 import SinglePost from './pages/SinglePost';
@@ -25,7 +25,7 @@ export default function App() {
         <Route path='/' element={<Home/>}/>
         <Route path='/about' element={<About/>}/>
         <Route path='/projects' element={<Projects/>}/>
-        <Route path='/signup' element={<SignUp/>}/>
+        <Route path='/signup' element={<Signup/>}/>
         <Route path='/login' element={<SignIn/>}/>
         <Route path='/search' element={<Search/>}/>
         <Route element={<AdminPrivateRoute/>}>
