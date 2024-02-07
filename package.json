@@ -1,7 +1,7 @@
 {
   "name": "blog",
   "version": "1.0.0",
-  "description": "",
+  "description": "BLOG [MERN Stack + TailwindCSS + Redux Toolkit + JWT]",
   "type": "module",
   "main": "index.js",
   "scripts": {

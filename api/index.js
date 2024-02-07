@@ -10,26 +10,20 @@ import commentRoutes from './routes/comment.route.js'
 import cookieParser from 'cookie-parser';
 
 import path from 'path'
-
-const app = express();
-// Config Server
-const port = 3000
 dotenv.config()
-const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, '/client/dist')));
-app.get('*', (req,res,next)=>{
-    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
-})
 
-// Run Server
-app.use(express.json())
-app.use(cookieParser())
-app.listen(port, ()=>{
-    console.log('Server is running on Port '+ port);
-});
 // Connect to MongoDB Database
 mongoose.connect(process.env.MONGO_CONFIG).then(()=>{
     console.log("MONGODB is Connected");
+});
+const __dirname = path.resolve();
+const app = express();
+app.use(express.json())
+app.use(cookieParser())
+
+
+app.listen(3000, ()=>{
+    console.log('Server is running on Port 3000');
 });
 
 // API Routes
@@ -38,7 +32,12 @@ app.use('/api/user', userRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/comment', commentRoutes);
 
-// Create Messages Errors
+app.use(express.static(path.join(__dirname, '/client/dist')));
+app.get('*', (req,res,next)=>{
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+})
+
+// Middleware
 app.use((err,req,res,next)=>{
     const statusCode = err.statusCode || 500;
     const message = err.message || "Internal Server Error";
