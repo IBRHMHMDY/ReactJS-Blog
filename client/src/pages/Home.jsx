@@ -21,10 +21,10 @@ export default function Home() {
         <p className='text-xs sm:text-sm text-gray-500'>
           Here you'll find a variety of articles and tutorials on topics such as web developement, software engineering, and programming languages.
         </p>
-        <Link to={'/'} className='text-teal-500 font-bold text-sm hover:underline'>See all posts</Link>
+        <Link to={'/search'} className='text-teal-500 font-bold text-sm hover:underline'>See all posts</Link>
       </div>
-      <div className='bg-amber-100 dark:bg-slate-100 p-3 my-5 '>
-        <CallToActions className="w-full mx-auto"/>
+      <div className='bg-amber-100 p-3 my-5 '>
+        <CallToActions />
       </div>
       <div className='max-w-6xl mx-auto p-3 flex flex-col gap-8 py-7'>
         {
