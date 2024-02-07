@@ -2,15 +2,15 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
-import userRoutes from './routes/user.route.js'
-import authRoutes from './routes/auth.route.js'
-import postRoutes from './routes/post.route.js'
-import commentRoutes from './routes/comment.route.js'
+import userRoutes from './routes/user.route.js';
+import authRoutes from './routes/auth.route.js';
+import postRoutes from './routes/post.route.js';
+import commentRoutes from './routes/comment.route.js';
 
 import cookieParser from 'cookie-parser';
 
-import path from 'path'
-dotenv.config()
+import path from 'path';
+dotenv.config();
 
 // Connect to MongoDB Database
 mongoose.connect(process.env.MONGO_CONFIG).then(()=>{
@@ -18,8 +18,8 @@ mongoose.connect(process.env.MONGO_CONFIG).then(()=>{
 });
 const __dirname = path.resolve();
 const app = express();
-app.use(express.json())
-app.use(cookieParser())
+app.use(express.json());
+app.use(cookieParser());
 
 
 app.listen(3000, ()=>{
@@ -35,7 +35,7 @@ app.use('/api/comment', commentRoutes);
 app.use(express.static(path.join(__dirname, '/client/dist')));
 app.get('*', (req,res,next)=>{
     res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
-})
+});
 
 // Middleware
 app.use((err,req,res,next)=>{

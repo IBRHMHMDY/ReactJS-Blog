@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import {Alert, Button, Label, Spinner, TextInput} from 'flowbite-react'
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import {Alert, Button, Label, Spinner, TextInput} from 'flowbite-react';
 import Logo from '../components/Logo';
 import {useDispatch, useSelector} from 'react-redux';
-import {signUpFailure, signUpStart, signUpSuccess} from '../redux/user/userSlice'
+import {signUpFailure, signUpStart, signUpSuccess} from '../redux/user/userSlice';
 import OAuthButton from '../components/OAuthButton';
 
 export default function Signup() {
@@ -31,14 +31,14 @@ export default function Signup() {
       });
       const data = await res.json();
       if(data.success === false){
-        dispatch(signUpFailure(data.message))
+        dispatch(signUpFailure(data.message));
       }
       if(res.ok){
-        dispatch(signUpSuccess(data))
-        navigate('/login')
+        dispatch(signUpSuccess(data));
+        navigate('/login');
       }
     } catch (error) {
-      dispatch(signUpFailure(error.message))
+      dispatch(signUpFailure(error.message));
     }
   }
   return (
